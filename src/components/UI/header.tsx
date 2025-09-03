@@ -12,6 +12,10 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { layoutConfig } from "@/config/layout.config";
+import RegistrationModal from "./modals/registration.modal";
+import LoginModal from "./modals/login.modal";
+import { useState } from "react";
 
 export const Logo = () => {
   return (
@@ -27,6 +31,11 @@ export const Logo = () => {
 
 export default function Header() {
   const pathname = usePathname();
+
+  const [isRegistrationOpen, setIsRegistrationOpen] = useState(false)
+const [isLoginOpen, setIsLoginOpen] = useState(false)
+
+
   const getNavItems = () => {
     return (
       <>
@@ -55,7 +64,8 @@ export default function Header() {
   };
 
   return (
-    <Navbar className="bg-gray-300">
+
+    <Navbar   style={{height: layoutConfig.headerHeight}}   >
       <NavbarBrand>
         <Link href="/" className="flex gap-1">
           <Logo />
@@ -66,17 +76,41 @@ export default function Header() {
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         {getNavItems()}
       </NavbarContent>
-      
+
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          <Link href="#">Логин</Link>
+             <Button 
+          as={Link} 
+          color="secondary" 
+          href="#" 
+          variant="flat"
+          onPress={() => setIsLoginOpen(true)} 
+          >
+           Логин
+          </Button>
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
+          <Button 
+          as={Link} 
+          color="primary" 
+          href="#" 
+          variant="flat"
+          onPress={() => setIsRegistrationOpen(true)} 
+          >
             Регистрация
           </Button>
         </NavbarItem>
       </NavbarContent>
+ <RegistrationModal 
+ isOpen={isRegistrationOpen}
+ onClose={() => setIsRegistrationOpen(false)}
+ />
+
+<LoginModal 
+ isOpen={isLoginOpen}
+ onClose={() => setIsLoginOpen(false)}
+/>
+      
     </Navbar>
   );
 }
