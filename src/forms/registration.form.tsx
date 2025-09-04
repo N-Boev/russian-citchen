@@ -1,7 +1,9 @@
 "use client";
 
+import { registerUser } from "@/actions/register";
 import { Button, Form, Input } from "@heroui/react";
 import { useState } from "react";
+
 
 interface IProps {
   onClose: () => void;
@@ -21,13 +23,17 @@ const RegistrationForm = ({ onClose }: IProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+  const result = await registerUser(formData)
    
+console.log('result')
+
     onClose();
   };
 
   return (
     <Form className="w-full" onSubmit={handleSubmit}>
-      <Input
+      <Input 
         aria-label="Email"
         isRequired
         name="email"
@@ -86,7 +92,7 @@ const RegistrationForm = ({ onClose }: IProps) => {
         <Button variant="light" onPress={onClose}>
           Отмена
         </Button>
-        <Button color="primary" type="submit">
+        <Button  color="primary" type="submit">
           Зарегистрироваться
         </Button>
       </div>
