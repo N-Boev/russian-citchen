@@ -28,8 +28,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-  const session = await auth()
+  const session = await auth();
   return (
     <html lang="en">
       <body
@@ -37,21 +36,23 @@ export default async function RootLayout({
       >
         <Providers>
           <SessionProvider session={session}>
+            <Header />
+            <main
+              className={`flex flex-col  w-full justify-start items-center`}
+              style={{
+                height: `calc(100vh - ${layoutConfig.headerHeight} - ${layoutConfig.footerHeight})`,
+              }}
+            >
+              {children}
+            </main>
 
-          <Header />
-          <main className={`flex flex-col  w-full justify-start items-center`}
-          style={{height: `calc(100vh - ${layoutConfig.headerHeight} - ${layoutConfig.footerHeight})`}}
-          >
-            {children}
-          </main>
-
-<footer className={`w-full flex justify-center items-center`}
-style={{height: layoutConfig.footerHeight}}
->
-  <p>{siteConfig.description}</p>
-</footer>
-
-  </SessionProvider>
+            <footer
+              className={`w-full flex justify-center items-center`}
+              style={{ height: layoutConfig.footerHeight }}
+            >
+              <p>{siteConfig.description}</p>
+            </footer>
+          </SessionProvider>
         </Providers>
       </body>
     </html>
