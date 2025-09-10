@@ -2,7 +2,7 @@
 
 import { siteConfig } from "@/config/site.config";
 import { usePathname } from "next/navigation";
-import DOMPurify from "dompurify";
+import DOMPurify from "isomorphic-dompurify";
 import parse from "html-react-parser";
 
 const PageContent = () => {
