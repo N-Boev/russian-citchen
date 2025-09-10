@@ -39,14 +39,12 @@ export default function Header() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   const hendleSignOut = async () => {
-    
     try {
       await signOutFunc();
-      
-} catch (error) {
-  console.log('error', error)
-}
-    setAuthState('unauthenticated', null)
+    } catch (error) {
+      console.log("error", error);
+    }
+    setAuthState("unauthenticated", null);
   };
 
   const getNavItems = () => {
@@ -91,7 +89,10 @@ export default function Header() {
 
       <NavbarContent justify="end">
         {isAuth && <p>Привет, {session?.user?.email}!</p>}
-        {!isAuth ? (
+        
+        {status === "loading" ? (
+          <p>Загрузка...</p>
+        ) : !isAuth ? (
           <>
             <NavbarItem className="hidden lg:flex">
               <Button
@@ -130,6 +131,7 @@ export default function Header() {
           </NavbarItem>
         )}
       </NavbarContent>
+
       <RegistrationModal
         isOpen={isRegistrationOpen}
         onClose={() => setIsRegistrationOpen(false)}
