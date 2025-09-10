@@ -17,7 +17,7 @@ import RegistrationModal from "./modals/registration.modal";
 import LoginModal from "./modals/login.modal";
 import { useState } from "react";
 import { signOutFunc } from "@/actions/sign-out";
-import { useSession } from "next-auth/react";
+import { useAuthStore } from "@/store/auth.store";
 
 export const Logo = () => {
   return (
@@ -33,15 +33,20 @@ export const Logo = () => {
 
 export default function Header() {
   const pathname = usePathname();
-  const { data: session, status } = useSession();
-
-  const isAuth = status === "authenticated";
+  const { isAuth, session, status, setAuthState } = useAuthStore();
 
   const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   const hendleSignOut = async () => {
-    await signOutFunc();
+    
+    try {
+      await signOutFunc();
+      
+} catch (error) {
+  console.log('error', error)
+}
+    setAuthState('unauthenticated', null)
   };
 
   const getNavItems = () => {
